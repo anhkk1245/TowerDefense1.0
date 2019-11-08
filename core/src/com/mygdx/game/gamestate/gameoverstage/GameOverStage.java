@@ -1,16 +1,13 @@
 package com.mygdx.game.gamestate.gameoverstage;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.startstage.StartStage;
 
-public class GameOverStage extends ScreenAdapter {
+public class GameOverStage implements Screen {
     MyGdxGame game;
 
     public GameOverStage(MyGdxGame game) {
@@ -44,7 +41,27 @@ public class GameOverStage extends ScreenAdapter {
     }
 
     @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
+    public void dispose() {
+
     }
 }

@@ -7,11 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
 
-public class StartStage extends ScreenAdapter {
+public class StartStage implements Screen {
+    SpriteBatch batch;
+    BitmapFont font;
     MyGdxGame game;
 
     public StartStage(MyGdxGame game) {
         this.game = game;
+        batch =new SpriteBatch();
+        font = new BitmapFont();
     }
 
     @Override
@@ -21,7 +25,7 @@ public class StartStage extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GamePlayStage(game));
+                    game.setScreen(new GamePlayStage());
                 }
                 return true;
             }
@@ -33,10 +37,34 @@ public class StartStage extends ScreenAdapter {
         //display green screen
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        font.draw(batch,"Start", Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        batch.end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
     }
 
     @Override
     public void hide(){
         Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
     }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
 import com.mygdx.game.gamestate.startstage.StartStage;
+import com.mygdx.game.helper.AssetLoader;
 import jdk.nashorn.internal.codegen.ClassEmitter;
 import sun.font.GraphicComponent;
 
@@ -17,7 +18,8 @@ public class MyGdxGame extends Game {
 
 	@Override
 	public void create () {
-		setScreen(new StartStage(this));
+		AssetLoader.load();
+		setScreen(new GamePlayStage());
 	}
 
 	@Override
