@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.gameoverstage.GameOverStage;
 import com.mygdx.game.gamestate.startstage.StartStage;
+import com.mygdx.game.helper.InputHandle;
 
 public class GamePlayStage implements Screen {
     private GameWorld world;
@@ -15,6 +16,7 @@ public class GamePlayStage implements Screen {
     public GamePlayStage() {
         world = new GameWorld();
         renderer = new GameRenderer(world);
+        Gdx.input.setInputProcessor(new InputHandle(world.getTower()));
     }
 
     @Override
