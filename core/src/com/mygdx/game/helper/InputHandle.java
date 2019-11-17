@@ -12,7 +12,7 @@ public class InputHandle implements InputProcessor {
     private int indexToDelete;
 
     private boolean justDragged = false;
-    private boolean justTouched = false;
+    private boolean justChoose = false;
 
     public InputHandle(GameWorld gameWorld) {
         this.world = gameWorld;
@@ -47,7 +47,7 @@ public class InputHandle implements InputProcessor {
             }
         }
 
-        if(this.box.isContain(screenX, renderY)) {
+        if (this.box.isContain(screenX, renderY)) {
             GameWorld.playerMoney += GameWorld.tower.get(indexToDelete).getPrice();
             GameWorld.tower.remove(indexToDelete);
             this.box.setActive(false);
@@ -56,20 +56,20 @@ public class InputHandle implements InputProcessor {
         for(int i=0;i<GameWorld.icon.size();i++){
             if(GameWorld.icon.get(i).isContain(screenX, renderY)) {
                 this.world.createTower(GameWorld.icon.get(i).getId(), GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY());
-                justTouched = true;
+                justChoose = true;
                 if(GameWorld.tower.get(GameWorld.tower.size()-1).isReadyToDrag())
                     GameWorld.tower.get(GameWorld.tower.size()-1).update(screenX,renderY);
             }
         }
+
         justDragged = false;
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(justTouched) {
+        if(justChoose) {
             if(!justDragged) {
-                //this.towerList.get(towerList.size() - 1).deActive();
                 GameWorld.tower.remove(GameWorld.tower.size() - 1);
             }
         }
@@ -91,19 +91,19 @@ public class InputHandle implements InputProcessor {
         }
 
         justDragged = false;
-        justTouched = false;
+        justChoose = false;
 
-        return true;
+        return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if( GameWorld.tower.get(GameWorld.tower.size()-1).isReadyToDrag()) {
             GameWorld.tower.get(GameWorld.tower.size()-1).update(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            justDragged = true;
         }
-        justDragged = true;
-        justTouched = false;
-        return true;
+        justChoose = false;
+        return false;
     }
 
     @Override
