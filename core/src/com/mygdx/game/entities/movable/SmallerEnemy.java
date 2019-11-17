@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class NormalEnemy extends Enemy {
-    public NormalEnemy(float x, float y) {
+public class SmallerEnemy extends Enemy {
+    public SmallerEnemy(float x, float y) {
         super(x, y);
-        super.setSpeed(4);
-        super.setId(1);
-        super.setHp(50);
+        super.setSpeed(7);
+        super.setId(3);
+        super.setHp(30);
         super.setMoney(10);
         super.setArmour(10);
     }
@@ -28,5 +28,4 @@ public class NormalEnemy extends Enemy {
     public boolean isActive() {
         return super.isActive();
     }
-
 }

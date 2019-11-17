@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class NormalEnemy extends Enemy {
-    public NormalEnemy(float x, float y) {
+public class TankerEnemy extends Enemy {
+    public TankerEnemy(float x, float y) {
         super(x, y);
-        super.setSpeed(4);
-        super.setId(1);
-        super.setHp(50);
+        super.setSpeed(3);
+        super.setId(2);
+        super.setHp(70);
         super.setMoney(10);
-        super.setArmour(10);
+        super.setArmour(20);
     }
 
     @Override

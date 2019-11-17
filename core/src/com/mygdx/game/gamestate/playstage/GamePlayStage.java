@@ -8,6 +8,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.gameoverstage.GameOverStage;
 import com.mygdx.game.gamestate.startstage.StartStage;
 import com.mygdx.game.helper.InputHandle;
+import com.mygdx.game.helper.Wave;
 
 public class GamePlayStage implements Screen {
     private GameWorld world;
@@ -16,8 +17,10 @@ public class GamePlayStage implements Screen {
     public GamePlayStage() {
         world = new GameWorld();
         renderer = new GameRenderer(world);
-        Gdx.input.setInputProcessor(new InputHandle(world.getTower()));
+
+        Gdx.input.setInputProcessor(new InputHandle(world));
     }
+
 
     @Override
     public void show() {
@@ -25,7 +28,7 @@ public class GamePlayStage implements Screen {
 
     @Override
     public void render(float delta) {
-        world.update(delta);
+        //world.update(delta);
         renderer.render();
     }
 
@@ -50,6 +53,6 @@ public class GamePlayStage implements Screen {
 
     @Override
     public void dispose() {
-
+        //renderer.dispose();
     }
 }

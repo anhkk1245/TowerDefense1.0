@@ -9,9 +9,10 @@ public abstract class MovableEntities {
     protected float speed;
     protected boolean active;
 
-    public MovableEntities(float x, float y, float speed) {
+    public MovableEntities() {}
+
+    public MovableEntities(float x, float y) {
         this.position = new Vector2(x,y);
-        this.speed = speed;
         this.active = true;
     }
 
@@ -25,4 +26,11 @@ public abstract class MovableEntities {
         return this.active;
     }
 
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 }
