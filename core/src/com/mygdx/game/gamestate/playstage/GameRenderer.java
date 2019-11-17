@@ -1,29 +1,18 @@
 package com.mygdx.game.gamestate.playstage;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.entities.movable.Enemy;
-import com.mygdx.game.entities.movable.NormalEnemy;
-import com.mygdx.game.entities.tile.Tower;
 import com.mygdx.game.helper.AssetLoader;
 import com.mygdx.game.helper.Box;
 import com.mygdx.game.helper.Wave;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class GameRenderer {
     private GameWorld world;
@@ -125,18 +114,13 @@ public class GameRenderer {
         drawIcon(batch);
 
         for (int i = GameWorld.tower.size() - 1;i>=0;i--) {
-//            if(i >= GameWorld.tower.size()) {
-//                i=GameWorld.tower.size() - 1;
-//                if(i == -1) break;
-//            }
             if(GameWorld.tower.get(i).isActive()) {
                 GameWorld.tower.get(i).draw(batch, tower);
-                if(GameWorld.tower.get(i).getId() == 1) GameWorld.tower.get(i).drawGun(batch, normalGun);
-                else if(GameWorld.tower.get(i).getId() == 2) GameWorld.tower.get(i).drawGun(batch, sniperGun);
-                else if(GameWorld.tower.get(i).getId() == 3) GameWorld.tower.get(i).drawGun(batch, machineGun);
+                if (GameWorld.tower.get(i).getId() == 1) GameWorld.tower.get(i).drawGun(batch, normalGun);
+                else if (GameWorld.tower.get(i).getId() == 2) GameWorld.tower.get(i).drawGun(batch, sniperGun);
+                else if (GameWorld.tower.get(i).getId() == 3) GameWorld.tower.get(i).drawGun(batch, machineGun);
                 GameWorld.tower.get(i).shot();
             }
-            else GameWorld.tower.remove(i);
         }
 
         if(box.isActive()) {
@@ -177,7 +161,7 @@ public class GameRenderer {
             }
         }
 
-        font.draw(batch, "WAVE: \n" + wave.waveNumber +"\n\nmoney: \n 100" + "\n\nescaped:\n0/10", 64*13, 64*11 );
+        font.draw(batch, "WAVE: \n" + wave.waveNumber +"\n\nmoney: \n " + GameWorld.playerMoney + "\n\nescaped:\n0/10", 64*13, 64*11 );
 
         batch.end();
 
@@ -212,8 +196,12 @@ public class GameRenderer {
     }
 
     private void drawIcon(SpriteBatch batch) {
-        batch.draw(tower, 64*3,64,64,64);
-        batch.draw(normalTowerGun,64*3,64,64,64);
+        for(int i = 0;i<GameWorld.icon.size();i++) {
+            batch.draw(tower, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
+            if(i==0) batch.draw(normalTowerGun, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
+            else if(i==1) batch.draw(sniperTowerGun, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
+            else batch.draw(machineTowerGun, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
+        }
     }
 
     public void dispose() {

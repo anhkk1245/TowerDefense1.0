@@ -25,7 +25,9 @@ public class Box {
         active = value;
     }
     public void setPosition(float x, float y) {
-        this.position = new Vector2(x+64, y+64);
+        if(x == 64*12) this.position = new Vector2(x-64, y+64);
+        else if(y == 64*11) this.position = new Vector2(x -70 , y-40);
+        else this.position = new Vector2(x+64, y+64);
     }
 
 

@@ -18,6 +18,7 @@ public abstract class Tower extends TileEntities {
     protected Enemy target = null;
     protected double time;
     protected double bulletPerSecond;
+    protected int price;
 
     protected boolean isSetting = true;
 
@@ -112,7 +113,7 @@ public abstract class Tower extends TileEntities {
                 time += Gdx.graphics.getDeltaTime();// de bien timer o dang sau de khi co target se ban ngay luon chu k phai cho bai s sau ms ban d'
 
             }
-            System.out.println(GameWorld.bulletList.size());
+            //System.out.println(GameWorld.bulletList.size());
             for (Bullet bullet : GameWorld.bulletList) {
                 if (bullet.isActive())
                 {
@@ -140,6 +141,7 @@ public abstract class Tower extends TileEntities {
 
     public void isDragged() {
         this.readyToDrag = false;
+        GameWorld.playerMoney -= this.price;
     }
 
     public float getX() {
@@ -178,8 +180,15 @@ public abstract class Tower extends TileEntities {
         this.damage = damage;
     }
 
-
     public void setTarget(Enemy target) {
         this.target = target;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }
