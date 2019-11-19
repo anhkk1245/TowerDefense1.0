@@ -7,7 +7,7 @@ public class Wave {
     GameWorld world;
     private String[] getWaveInfo;
 
-    public int waveNumber = 1;
+    public static int waveNumber = 1;
     private int enemiesThisRound = 0;
     private int enemyIndex = 1;
 

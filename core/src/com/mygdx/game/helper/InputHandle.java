@@ -47,10 +47,21 @@ public class InputHandle implements InputProcessor {
             }
         }
 
-        if (this.box.isContain(screenX, renderY)) {
+        if (this.box.isContain(screenX, renderY, 96, 40)) {
             GameWorld.playerMoney += GameWorld.tower.get(indexToDelete).getPrice();
             GameWorld.tower.remove(indexToDelete);
             this.box.setActive(false);
+        }
+
+        for (int i=0;i<GameWorld.iconBox.size();i++) {
+            if(GameWorld.iconBox.get(i).isContain(screenX,renderY,64,64)) {
+                if(GameWorld.iconBox.get(i).getId() == 1) {
+                    GameWorld.plane.setActive(true);
+                    GameWorld.playerMoney -= 100;
+                }
+                else if(GameWorld.iconBox.get(i).getId() == 2) {GameWorld.save();}
+                else {GameWorld.load();}
+            }
         }
 
         for(int i=0;i<GameWorld.icon.size();i++){

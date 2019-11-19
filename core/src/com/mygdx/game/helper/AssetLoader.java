@@ -18,11 +18,18 @@ public class AssetLoader {
     public static Texture sniperTowerGun;
     public static Texture machineTowerGun;
     public static Texture bullet;
+    public static Texture normalBullet;
+    public static Texture sniperBullet;
+    public static Texture machineBullet;
     public static Texture sellButton;
     public static Texture healthBar;
     public static Texture healthBarBackground;
     public static Texture water_1;
     public static Texture water_2;
+    public static Texture skill;
+    public static Texture sos;
+    public static Texture save;
+    public static Texture load;
 
     public static void load() {
         grass = new Texture(Gdx.files.internal("road/grass_tile_3.png"));
@@ -41,6 +48,9 @@ public class AssetLoader {
         machineTowerGun = new Texture(Gdx.files.internal("tower/machine.png"));
 
         bullet = new Texture(Gdx.files.internal("bullet/bullet.png"));
+        normalBullet = new Texture(Gdx.files.internal("bullet/normal.png"));
+        sniperBullet = new Texture(Gdx.files.internal("bullet/sniper.png"));
+        machineBullet = new Texture(Gdx.files.internal("bullet/machine.png"));
 
         sellButton = new Texture(Gdx.files.internal("button/sell_button.png"));
 
@@ -49,6 +59,12 @@ public class AssetLoader {
 
         water_1 = new Texture(Gdx.files.internal("road/2.png"));
         water_2 = new Texture(Gdx.files.internal("road/3.png"));
+
+        skill = new Texture(Gdx.files.internal("pow/ultimate_skill.png"));
+        sos = new Texture(Gdx.files.internal("pow/sos.png"));
+        save = new Texture(Gdx.files.internal("pow/save.png"));
+        load = new Texture(Gdx.files.internal("pow/resume.png"));
+
     }
 
     public static void dispose() {
@@ -66,5 +82,12 @@ public class AssetLoader {
         healthBarBackground.dispose();
         water_1.dispose();
         water_2.dispose();
+        skill.dispose();
+        sos.dispose();
+        save.dispose();
+        load.dispose();
+        normalBullet.dispose();
+        machineBullet.dispose();
+        sniperBullet.dispose();
     }
 }

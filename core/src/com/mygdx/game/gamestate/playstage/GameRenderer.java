@@ -35,17 +35,23 @@ public class GameRenderer {
     private Texture water_1;
     private Texture water_2;
     private Texture bullet;
+    private Texture skill;
+    private Texture sos;
+    private Texture save;
+    private Texture load;
 
     private Sprite normalGun;
     private Sprite sniperGun;
     private Sprite machineGun;
+    private Sprite plane;
 
     private int[][] MAP_SPRITES_1 ;
     private Vector2[] wayPoints;
 
     private ShapeRenderer shapeRenderer;
 
-    private float timer ;
+    public static float timer = 0;
+    private float timer2 = 0;
 
     private SpriteBatch batch;
 
@@ -59,7 +65,6 @@ public class GameRenderer {
         wayPoints = world.wayPoints;
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        timer = 0;
         wave = new Wave(this.world);
         box = world.box;
         initObject();
@@ -96,10 +101,17 @@ public class GameRenderer {
         water_1 = AssetLoader.water_1;
         water_2 = AssetLoader.water_2;
         bullet = AssetLoader.bullet;
+        skill = AssetLoader.skill;
+        sos = AssetLoader.sos;
+        save = AssetLoader.save;
+        load = AssetLoader.load;
 
-        normalGun = new Sprite(normalTowerGun);
-        sniperGun = new Sprite(sniperTowerGun);
-        machineGun = new Sprite(machineTowerGun);
+        //normalGun = new Sprite(normalTowerGun);
+        //sniperGun = new Sprite(sniperTowerGun);
+       // machineGun = new Sprite(machineTowerGun);
+        plane = new Sprite(skill);
+        plane.setSize(64,64);
+        plane.rotate(135);
     }
 
     public void initObject() {
@@ -116,15 +128,25 @@ public class GameRenderer {
         for (int i = GameWorld.tower.size() - 1;i>=0;i--) {
             if(GameWorld.tower.get(i).isActive()) {
                 GameWorld.tower.get(i).draw(batch, tower);
-                if (GameWorld.tower.get(i).getId() == 1) GameWorld.tower.get(i).drawGun(batch, normalGun);
-                else if (GameWorld.tower.get(i).getId() == 2) GameWorld.tower.get(i).drawGun(batch, sniperGun);
-                else if (GameWorld.tower.get(i).getId() == 3) GameWorld.tower.get(i).drawGun(batch, machineGun);
-                GameWorld.tower.get(i).shot();
+                if (GameWorld.tower.get(i).getId() == 1) GameWorld.tower.get(i).drawGun(batch);
+                else if (GameWorld.tower.get(i).getId() == 2) GameWorld.tower.get(i).drawGun(batch);
+                else if (GameWorld.tower.get(i).getId() == 3) GameWorld.tower.get(i).drawGun(batch);
             }
+            if(GameWorld.tower.get(i).isPlanted()) GameWorld.tower.get(i).shot(batch);
+        }
+
+        if(GameWorld.plane.isActive()) {
+            GameWorld.plane.update();
+            GameWorld.plane.drawSprite(batch, plane);
         }
 
         if(box.isActive()) {
-            box.draw(batch, sellButton);
+            box.draw(batch, sellButton, 96, 40);
+            timer2 += Gdx.graphics.getDeltaTime();
+            if(timer2 > 3) {
+                box.setActive(false);
+                timer2 = 0;
+            }
         }
 
         if(wave.waveNumber <= this.world.getWaveInfo().length) {
@@ -136,7 +158,7 @@ public class GameRenderer {
                     if(i == -1) break;
                 }
                 if (GameWorld.EnemyList.get(i).isActive()){
-                    GameWorld.EnemyList.get(i).update(wayPoints);
+                    GameWorld.EnemyList.get(i).findPath(wayPoints);
                     if (GameWorld.EnemyList.get(i).getId() == 1) {
                         GameWorld.EnemyList.get(i).draw(batch, NormalEnemy);
                     } else if (GameWorld.EnemyList.get(i).getId() == 2) {
@@ -154,14 +176,14 @@ public class GameRenderer {
             // ket thuc 1 round hoan thoi gian roi san sinh tiep
             if (!wave.waveSpawning) {
                 timer += Gdx.graphics.getDeltaTime();
-                if (timer >= 10) {
+                if (timer >= 20) {
                     wave.nextWave();
                     timer = 0;
                 }
             }
         }
 
-        font.draw(batch, "WAVE: \n" + wave.waveNumber +"\n\nmoney: \n " + GameWorld.playerMoney + "\n\nescaped:\n0/10", 64*13, 64*11 );
+        font.draw(batch, "WAVE: \n" + wave.waveNumber +"\n\nmoney: \n " + GameWorld.playerMoney + "\n\nescaped:\n"+ GameWorld.escapedEnemy+"/10", 64*13, 64*11 );
 
         batch.end();
 
@@ -201,6 +223,14 @@ public class GameRenderer {
             if(i==0) batch.draw(normalTowerGun, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
             else if(i==1) batch.draw(sniperTowerGun, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
             else batch.draw(machineTowerGun, GameWorld.icon.get(i).getX(),GameWorld.icon.get(i).getY(),64,64);
+        }
+        for(int i = 0;i<GameWorld.iconBox.size();i++) {
+            if(GameWorld.iconBox.get(i).getId() == 1)
+            GameWorld.iconBox.get(i).draw(batch, sos, 64, 64);
+            else if(GameWorld.iconBox.get(i).getId() == 2)
+                GameWorld.iconBox.get(i).draw(batch, save, 64, 64);
+            else if(GameWorld.iconBox.get(i).getId() == 3)
+                GameWorld.iconBox.get(i).draw(batch, load, 64, 64);
         }
     }
 

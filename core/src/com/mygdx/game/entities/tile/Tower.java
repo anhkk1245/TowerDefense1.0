@@ -1,16 +1,23 @@
 package com.mygdx.game.entities.tile;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entities.movable.Bullet;
 import com.mygdx.game.entities.movable.Enemy;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.helper.AssetLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Tower extends TileEntities {
     protected boolean readyToDrag = true;
+    protected boolean planted;
     protected int id;
     protected int damage;
     protected int range;
@@ -19,24 +26,37 @@ public abstract class Tower extends TileEntities {
     protected double time;
     protected double bulletPerSecond;
     protected int price;
+    protected Sprite sprite;
+    protected List<Bullet> listBullet;
+    //ShapeRenderer shapeRenderer;
 
     protected boolean isSetting = true;
 
     public Tower(float x, float y) {
         super(x,y);
         this.angle = 0;
+        planted = false;
+        listBullet = new ArrayList<>();
+        //shapeRenderer = new ShapeRenderer();
     }
+    public Enemy TakeTarget()
+    {
+        return this.target;
+    }
+    public float TakeAngle(){return this.angle;}
 
     public Enemy getTarget() {
+        Enemy Target = null;
         double farestEnemy = 0;
         for (Enemy enemy : GameWorld.EnemyList) {
-            double distance = Vector2.dst(this.getX(), this.getY(), enemy.getX(), enemy.getY());
-            if (enemy.isActive() && distance < range && enemy.getDistanceTraveled() > farestEnemy) // cai getA la lấy ra quãng đuoèng mà ênmy đã đi được, mỗi lần ô rendẻ ênmy thì a += speed
+            double distance = Vector2.dst(this.getX()+32, this.getY()+32, enemy.getX()+32, enemy.getY()+32);
+            if (enemy.isActive() && distance < range && enemy.getDistanceTraveled() > farestEnemy)
             {
-                this.target = enemy;
+                Target = enemy;
                 farestEnemy = enemy.getDistanceTraveled();
             }
         }
+        this.target = Target;
         return this.target;
     }
 
@@ -50,14 +70,14 @@ public abstract class Tower extends TileEntities {
         else{
             if(this.getX() > target.getX())
             {
-                float ch = Vector2.dst(this.getX(), this.getY(), target.getX(), target.getY());
+                float ch = Vector2.dst(this.getX()+32, this.getY()+32, target.getX()+32, target.getY()+32);
                 float cgv = Math.abs(this.getY() - target.getY());
                 float cos = cgv/ch;
                 angle = Math.abs(Math.acos(cos));
                 angle = (double)Math.round(angle*1000)/1000;
                 angle = angle * 180/Math.PI;
                 angle = (double)Math.round(angle*1000)/1000;
-                if (target.getY() > this.getY())
+                if (target.getY()+32 > this.getY()+32)
                 {
                     return (float)(angle);
                 }
@@ -71,7 +91,7 @@ public abstract class Tower extends TileEntities {
                 angle = (double)Math.round(angle*1000)/1000;
                 angle = angle * 180/Math.PI;
                 angle = (double)Math.round(angle*1000)/1000;
-                if (target.getY() > this.getY())
+                if (target.getY()+32 > this.getY()+32)
                 {
                     return (float)(-angle);
                 }
@@ -84,14 +104,15 @@ public abstract class Tower extends TileEntities {
         batch.draw(texture, this.position.x, this.position.y, 64,64);
     }
 
-    public void drawGun(SpriteBatch batch, Sprite sprite) {
-        float angleX = this.getAngle(this.getTarget()) - this.angle;
-
-        sprite.setSize(64,64);
-        sprite.setPosition(this.getX(), this.getY());
-        sprite.rotate(angleX);
-        this.angle = this.getAngle(getTarget());
-        sprite.draw(batch);
+    public void drawGun(SpriteBatch batch) {
+        if (this.isPlanted())
+        {
+            float angleX = this.getAngle(this.getTarget()) - this.angle;
+            this.sprite.rotate(angleX);
+            this.angle = this.getAngle(getTarget());
+        }
+        this.sprite.setPosition(this.getX(), this.getY());
+        this.sprite.draw(batch);
     }
 
     public void update() {
@@ -102,26 +123,48 @@ public abstract class Tower extends TileEntities {
         this.position = new Vector2(x,y);
     }
 
-    public void shot() {
+    public void shot(SpriteBatch batch) {
         if (this.isActive()) {
             if (this.getTarget() != null) {
-                //System.out.println(time);
-                if (time >= (1/(bulletPerSecond))) { // BUG khi de bulletPerSecond la int thi ep kieu(double)(1/bulletPerSecond)van se ra 0
+                if (time >= (1/(bulletPerSecond))) {
                     time = 0;
-                    GameWorld.bulletList.add(new Bullet(this));
+                    if(this.getId() ==1)
+                    {
+                        listBullet.add(new Bullet(this, AssetLoader.normalBullet));
+                    }
+                    else if(this.getId() ==2)
+                    {
+                        listBullet.add(new Bullet(this, AssetLoader.sniperBullet));
+                    }
+                    else
+                    {
+                        listBullet.add(new Bullet(this, AssetLoader.machineBullet));
+                    }
                 }
-                time += Gdx.graphics.getDeltaTime();// de bien timer o dang sau de khi co target se ban ngay luon chu k phai cho bai s sau ms ban d'
+                time += Gdx.graphics.getDeltaTime();
+                /*
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.line(this.getX(), this.getY(), target.getX(), target.getY());
+                shapeRenderer.end();*/
 
             }
-            //System.out.println(GameWorld.bulletList.size());
-            for (Bullet bullet : GameWorld.bulletList) {
+            for (Bullet bullet : this.listBullet) {
                 if (bullet.isActive())
                 {
                     bullet.getTargetPos();
-                    bullet.update();//bug
+                    bullet.update();
+                    bullet.draw(batch);
+
                 }
-                //else { this.listBullet.remove(bullet); } // sao remove khoi list bi loi ?
-                // vi k xoa bullet khoi list nen neu de lau se bi lag
+            }
+            for (int i=0; i< this.listBullet.size()-1; i++)
+            {
+                if (!this.listBullet.get(i).isActive()) {
+                    //
+                    this.listBullet.remove(i);
+                    i--;
+                }
             }
         }
     }
@@ -139,7 +182,12 @@ public abstract class Tower extends TileEntities {
         return readyToDrag;
     }
 
+    public boolean isPlanted() {
+        return this.planted;
+    }
+
     public void isDragged() {
+        this.planted = true;
         this.readyToDrag = false;
         GameWorld.playerMoney -= this.price;
     }
@@ -190,5 +238,9 @@ public abstract class Tower extends TileEntities {
 
     public int getPrice() {
         return price;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 }

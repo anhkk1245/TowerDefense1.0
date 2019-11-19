@@ -7,44 +7,79 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.gamestate.playstage.GameWorld;
 
 public abstract class Enemy extends MovableEntities {
-    protected String direction;
-    protected int countWayPoint;
+    protected String direction = "";
+    public int countWayPoint;
     protected int hp;
     protected int money;
     protected int armour;// ao giap
     protected int id;
     protected int distanceTraveled;
+    protected Vector2 virtualPoint;
+
+    protected boolean justLoad = false;
 
     public Enemy(float x, float y) {
         super(x, y);
-        this.direction = "";
         this.countWayPoint = 0;
     }
 
+    // use for save function
+    public Enemy(int hp, int countWayPoint, float x, float y, String direction, int distanceTraveled) {
+        super(x,y);
+        this.countWayPoint = countWayPoint;
+        this.direction = "";
+        this.distanceTraveled = distanceTraveled;
+        this.justLoad = true;
+        this.virtualPoint = new Vector2(x,y);
+        setHp(hp);
+    }
+
     public void update(Vector2[] wayPoints) {
-        if(this.position.x >= GameWorld.wayPoints[wayPoints.length-1].x) {
+        if(this.position.x + 36 >= GameWorld.wayPoints[wayPoints.length-1].x) {
             this.deActive();
             this.countWayPoint = 0;
+            GameWorld.escapedEnemy ++;
             return;
         }
-        Vector2 currentWP = wayPoints[this.countWayPoint];
-        if (Vector2.dst(this.position.x, this.position.y, currentWP.x, currentWP.y) <= this.speed) {
-            this.position = new Vector2(currentWP.x, currentWP.y);
-            Vector2 nextWayPoint = new Vector2();
-            if(this.countWayPoint < GameWorld.wayPoints.length - 1) { 
-                nextWayPoint = wayPoints[++this.countWayPoint];
+        if(!this.justLoad) {
+            Vector2 currentWP = wayPoints[this.countWayPoint];
+            if (Vector2.dst(this.position.x, this.position.y, currentWP.x, currentWP.y) <= this.speed) {
+                this.position = new Vector2(currentWP.x, currentWP.y);
+                Vector2 nextWayPoint = new Vector2();
+                if (this.countWayPoint < GameWorld.wayPoints.length - 1) {
+                    nextWayPoint = wayPoints[++this.countWayPoint];
+                }
+                double deltaX = nextWayPoint.x - this.position.x;
+                double deltaY = nextWayPoint.y - this.position.y;
+                if (deltaX > this.speed) this.direction = "RIGHT";
+                else if (deltaX < -this.speed) this.direction = "LEFT";
+                else if (deltaY > this.speed) this.direction = "UP";
+                else if (deltaY <= -this.speed) this.direction = "DOWN";
             }
-            double deltaX = nextWayPoint.x - this.position.x;
-            double deltaY = nextWayPoint.y - this.position.y;
-            if (deltaX > this.speed) this.direction = "RIGHT";
-            else if (deltaX < -this.speed) this.direction = "LEFT";
-            else if (deltaY > this.speed) this.direction = "DOWN";
-            else if (deltaY <= -this.speed) this.direction = "UP";
         }
+        else {
+            if (Vector2.dst(this.position.x, this.position.y, this.virtualPoint.x, this.virtualPoint.y) <= 1) {
+                this.position = new Vector2(this.virtualPoint.x, this.virtualPoint.y);
+                Vector2 nextWayPoint = new Vector2();
+                if (this.countWayPoint < GameWorld.wayPoints.length - 1) {
+                    nextWayPoint = wayPoints[++this.countWayPoint];
+                }
+                double deltaX = nextWayPoint.x - this.position.x;
+                double deltaY = nextWayPoint.y - this.position.y;
+                if (deltaX > this.speed) this.direction = "RIGHT";
+                else if (deltaX < -this.speed) this.direction = "LEFT";
+                else if (deltaY > this.speed) this.direction = "UP";
+                else if (deltaY <= -this.speed) this.direction = "DOWN";
+                this.justLoad = false;
+            }
+        }
+    }
 
+    public void findPath(Vector2[] wayPoints) {
+        this.update(wayPoints);
         if(direction == "RIGHT") this.position.add(this.speed,0);
-        else if(direction == "UP" ) this.position.add(0, -this.speed);
-        else if(direction == "DOWN") this.position.add(0, this.speed);
+        else if(direction == "DOWN" ) this.position.add(0, -this.speed);
+        else if(direction == "UP") this.position.add(0, this.speed);
     }
 
     @Override
@@ -55,13 +90,18 @@ public abstract class Enemy extends MovableEntities {
     @Override
     public void deActive() {
         super.deActive();
-//        GameWorld.EnemyList.remove(this);
     }
 
     protected int hpProgress;
     public void createHealthBar(SpriteBatch batch, Texture healthBarBackground, Texture healthBar) {
-        batch.draw(healthBarBackground, this.position.x - 10, this.position.y+35, 40, 5 );
-        batch.draw(healthBar, this.position.x - 9, this.position.y + 36, 39, 5);
+        batch.draw(healthBarBackground, this.position.x + 20, this.position.y+60, 40, 5 );
+        batch.draw(healthBar, this.position.x + 20, this.position.y + 60, 39, 5);
+    }
+
+    @Override
+    public void draw(SpriteBatch batch, Texture texture) {
+        batch.draw(texture, this.position.x  , this.position.y  , 64,64);
+        distanceTraveled += this.speed;
     }
 
     public int getHp() {
@@ -114,5 +154,9 @@ public abstract class Enemy extends MovableEntities {
 
     public int getDistanceTraveled() {
         return this.distanceTraveled;
+    }
+
+    public String getDirection() {
+        return direction;
     }
 }
