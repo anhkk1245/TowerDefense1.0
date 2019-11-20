@@ -42,6 +42,7 @@ public class InputHandle2 implements InputProcessor {
         if(devButton) {
             game.setScreen(new GameOverStage(game));
             GameWorld2.isActive = false;
+            GameWorld2.resetWorld();
 //            GameWorld.isActive = true;
         }
         return true;
@@ -73,9 +74,9 @@ public class InputHandle2 implements InputProcessor {
         for (int i=0;i<GameWorld2.iconBox.size();i++) {
             if(GameWorld2.iconBox.get(i).isContain(screenX,renderY,64,64)) {
                 if(GameWorld2.iconBox.get(i).getId() == 1) {
-                    if(GameWorld2.playerMoney - 200 >= 0) {
+                    if(GameWorld2.playerMoney - 100 >= 0) {
                         GameWorld2.plane.setActive(true);
-                        GameWorld2.playerMoney -= 200;
+                        GameWorld2.playerMoney -= 100;
                     }
                 }
                 else if(GameWorld2.iconBox.get(i).getId() == 2) {GameWorld2.save();}
@@ -100,13 +101,13 @@ public class InputHandle2 implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(justChoose) {
             if(!justDragged) {
-                GameWorld2.tower.remove(GameWorld.tower.size() - 1);
+                GameWorld2.tower.remove(GameWorld2.tower.size() - 1);
             }
         }
 
         if(justDragged) {
             if (screenX >= 0 && screenX <= 13 * 64 && screenY >= 0 && screenY <= 10 * 64) {
-                if (MAP_SPRITE[GameWorld2.tower.get(GameWorld2.tower.size() - 1).getMapRowIndex(screenY)][GameWorld.tower.get(GameWorld2.tower.size() - 1).getMapCollumnIndex(screenX)] == 0) {// them dieu kien no khong la duong
+                if (MAP_SPRITE[GameWorld2.tower.get(GameWorld2.tower.size() - 1).getMapRowIndex(screenY)][GameWorld2.tower.get(GameWorld2.tower.size() - 1).getMapCollumnIndex(screenX)] == 0) {// them dieu kien no khong la duong
                     //dat thap vao trong o
                     int row = GameWorld2.tower.get(GameWorld2.tower.size() - 1).getMapRowIndex(Gdx.graphics.getHeight() - screenY);
                     int col = GameWorld2.tower.get(GameWorld2.tower.size() - 1).getMapRowIndex(screenX);

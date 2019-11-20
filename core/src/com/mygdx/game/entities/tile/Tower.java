@@ -211,7 +211,10 @@ public abstract class Tower extends TileEntities {
                 this.planted = true;
                 this.readyToDrag = false;
                 GameWorld2.playerMoney -= this.price;
-            } else GameWorld2.tower.remove(GameWorld2.tower.size() - 1);
+            } else{
+                AssetLoader.notEnoughMoney.play();
+                GameWorld2.tower.remove(GameWorld2.tower.size() - 1);
+            }
         }
     }
 

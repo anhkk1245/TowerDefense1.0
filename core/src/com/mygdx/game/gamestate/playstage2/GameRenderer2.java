@@ -64,7 +64,7 @@ public class GameRenderer2 {
         wayPoints = world.wayPoints;
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        wave = new Wave(world);
+        wave = new Wave(this.world);
         box = world.box;
         initObject();
         initAsset();
@@ -105,9 +105,6 @@ public class GameRenderer2 {
         save = AssetLoader.save;
         load = AssetLoader.load;
 
-        plane = new Sprite(skill);
-        plane.setSize(64,64);
-        plane.rotate(135);
     }
 
     public void initObject() {
@@ -128,7 +125,7 @@ public class GameRenderer2 {
                 else if (GameWorld2.tower.get(i).getId() == 2) GameWorld2.tower.get(i).drawGun(batch);
                 else if (GameWorld2.tower.get(i).getId() == 3) GameWorld2.tower.get(i).drawGun(batch);
             }
-            if(GameWorld2.tower.get(i).isPlanted()) GameWorld.tower.get(i).shot(batch);
+            if(GameWorld2.tower.get(i).isPlanted()) GameWorld2.tower.get(i).shot(batch);
         }
 
         if(GameWorld2.plane.isActive()) {
@@ -181,14 +178,14 @@ public class GameRenderer2 {
             // ket thuc 1 round hoan thoi gian roi san sinh tiep
             if (!wave.waveSpawning) {
                 timer += Gdx.graphics.getDeltaTime();
-                if (timer >= 14) {
+                if (timer >= 19) {
                     wave.nextWave();
                     timer = 0;
                 }
             }
         }
 
-        font.draw(batch, "WAVE:\n" + wave.waveNumber +"\n\nmoney:\n " + GameWorld.playerMoney + "\n\nescaped:\n"+ GameWorld.escapedEnemy+"/10", 64*13, 64*11 );
+        font.draw(batch, "WAVE:\n" + wave.waveNumber +"\n\nmoney:\n " + GameWorld2.playerMoney + "\n\nescaped:\n"+ GameWorld2.escapedEnemy+"/10", 64*13, 64*11 );
 
         batch.end();
 
@@ -229,7 +226,7 @@ public class GameRenderer2 {
             else if(i==1) batch.draw(sniperTowerGun, GameWorld2.icon.get(i).getX(),GameWorld2.icon.get(i).getY(),64,64);
             else batch.draw(machineTowerGun, GameWorld2.icon.get(i).getX(),GameWorld2.icon.get(i).getY(),64,64);
         }
-        for(int i = 0;i<GameWorld.iconBox.size();i++) {
+        for(int i = 0;i<GameWorld2.iconBox.size();i++) {
             if(GameWorld2.iconBox.get(i).getId() == 1)
                 GameWorld2.iconBox.get(i).draw(batch, sos, 64, 64);
             else if(GameWorld2.iconBox.get(i).getId() == 2)

@@ -26,8 +26,8 @@ public class GameWorld2 {
 
     public static final Vector2[] wayPoints = new Vector2[]{
             new Vector2(0 * 64, 3 * 64),
-            new Vector2(2*64, 3*64),
-            new Vector2(2*64, 10 * 64),
+            new Vector2(64, 3*64),
+            new Vector2(64, 10 * 64),
             new Vector2(4*64, 10 * 64),
             new Vector2(4 * 64, 4 * 64),
             new Vector2(7 * 64, 4 * 64),

@@ -37,19 +37,37 @@ public abstract class Enemy extends MovableEntities {
     }
 
     public void update(Vector2[] wayPoints) {
-        if(this.position.x + 36 >= GameWorld.wayPoints[wayPoints.length-1].x) {
-            this.deActive();
-            this.countWayPoint = 0;
-            GameWorld.escapedEnemy ++;
-            return;
+        if(GameWorld.isActive) {
+            if(this.position.x + 36 >= GameWorld.wayPoints[wayPoints.length-1].x) {
+                this.deActive();
+                this.countWayPoint = 0;
+                GameWorld.escapedEnemy ++;
+                return;
+            }
         }
+        else if(GameWorld2.isActive) {
+            if(this.position.x + 36 >= GameWorld2.wayPoints[wayPoints.length-1].x) {
+                this.deActive();
+                this.countWayPoint = 0;
+                GameWorld2.escapedEnemy ++;
+                return;
+            }
+        }
+
         if(!this.justLoad) {
             Vector2 currentWP = wayPoints[this.countWayPoint];
             if (Vector2.dst(this.position.x, this.position.y, currentWP.x, currentWP.y) <= this.speed) {
                 this.position = new Vector2(currentWP.x, currentWP.y);
                 Vector2 nextWayPoint = new Vector2();
-                if (this.countWayPoint < GameWorld.wayPoints.length - 1) {
-                    nextWayPoint = wayPoints[++this.countWayPoint];
+                if(GameWorld.isActive) {
+                    if (this.countWayPoint < GameWorld.wayPoints.length - 1) {
+                        nextWayPoint = wayPoints[++this.countWayPoint];
+                    }
+                }
+                else if(GameWorld2.isActive) {
+                    if (this.countWayPoint < GameWorld2.wayPoints.length - 1) {
+                        nextWayPoint = wayPoints[++this.countWayPoint];
+                    }
                 }
                 double deltaX = nextWayPoint.x - this.position.x;
                 double deltaY = nextWayPoint.y - this.position.y;
@@ -63,8 +81,15 @@ public abstract class Enemy extends MovableEntities {
             if (Vector2.dst(this.position.x, this.position.y, this.virtualPoint.x, this.virtualPoint.y) <= 1) {
                 this.position = new Vector2(this.virtualPoint.x, this.virtualPoint.y);
                 Vector2 nextWayPoint = new Vector2();
-                if (this.countWayPoint < GameWorld.wayPoints.length - 1) {
-                    nextWayPoint = wayPoints[++this.countWayPoint];
+                if(GameWorld.isActive) {
+                    if (this.countWayPoint < GameWorld.wayPoints.length - 1) {
+                        nextWayPoint = wayPoints[++this.countWayPoint];
+                    }
+                }
+                else if(GameWorld2.isActive) {
+                    if (this.countWayPoint < GameWorld2.wayPoints.length - 1) {
+                        nextWayPoint = wayPoints[++this.countWayPoint];
+                    }
                 }
                 double deltaX = nextWayPoint.x - this.position.x;
                 double deltaY = nextWayPoint.y - this.position.y;

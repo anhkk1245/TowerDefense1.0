@@ -41,8 +41,8 @@ public class InputHandle implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if(devButton) {
-            game.setScreen(new GameOverStage(game));
-//            GameWorld2.isActive = true;
+            game.setScreen(new GamePlayStage2(game));
+            GameWorld2.isActive = true;
             GameWorld.resetWorld();
             GameWorld.isActive = false;
         }
