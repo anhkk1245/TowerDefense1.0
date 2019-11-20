@@ -66,15 +66,19 @@ public class InputHandle2 implements InputProcessor {
         }
 
         if (this.box.isContain(screenX, renderY, 96, 40)) {
+            AssetLoader.click.play();
             GameWorld2.playerMoney += (GameWorld2.tower.get(indexToDelete).getPrice() / 3);
+            AssetLoader.bonus.play();
             GameWorld2.tower.remove(indexToDelete);
             this.box.setActive(false);
         }
 
         for (int i=0;i<GameWorld2.iconBox.size();i++) {
             if(GameWorld2.iconBox.get(i).isContain(screenX,renderY,64,64)) {
+                AssetLoader.click.play();
                 if(GameWorld2.iconBox.get(i).getId() == 1) {
                     if(GameWorld2.playerMoney - 100 >= 0) {
+                        AssetLoader.flash.play();
                         GameWorld2.plane.setActive(true);
                         GameWorld2.playerMoney -= 100;
                     }
@@ -113,6 +117,7 @@ public class InputHandle2 implements InputProcessor {
                     int col = GameWorld2.tower.get(GameWorld2.tower.size() - 1).getMapRowIndex(screenX);
                     GameWorld2.tower.get(GameWorld2.tower.size() - 1).update(col * 64, row * 64);
                     GameWorld2.tower.get(GameWorld2.tower.size() - 1).isDragged();
+                    AssetLoader.click.play();
                 } else {
                     GameWorld2.tower.remove(GameWorld2.tower.size() - 1);
                 }

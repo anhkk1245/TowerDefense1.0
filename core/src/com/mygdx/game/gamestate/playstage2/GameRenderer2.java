@@ -178,7 +178,7 @@ public class GameRenderer2 {
             // ket thuc 1 round hoan thoi gian roi san sinh tiep
             if (!wave.waveSpawning) {
                 timer += Gdx.graphics.getDeltaTime();
-                if (timer >= 19) {
+                if (timer >= 24) {
                     wave.nextWave();
                     timer = 0;
                 }
