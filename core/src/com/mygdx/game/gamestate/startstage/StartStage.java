@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
+import com.mygdx.game.gamestate.playstage.GameWorld;
 
 public class StartStage implements Screen {
     SpriteBatch batch;
@@ -25,7 +26,8 @@ public class StartStage implements Screen {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GamePlayStage());
+                    game.setScreen(new GamePlayStage(game));
+                    GameWorld.isActive = true;
                 }
                 return true;
             }

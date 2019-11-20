@@ -9,9 +9,10 @@ public class BossEnemy extends Enemy {
         super(x, y);
         super.setSpeed(2);
         super.setId(4);
-        super.setHp(90);
+        super.setHp(200);
         super.setMoney(20);
         super.setArmour(30);
+        super.setHpProgress(this.hp + this.armour);
     }
 
     public BossEnemy(int hp, int countWayPoint, float x, float y, String direction, int distanceTraveled) {
@@ -20,6 +21,7 @@ public class BossEnemy extends Enemy {
         super.setMoney(20);
         super.setArmour(30);
         super.setSpeed(4);
+        super.setHpProgress(this.hp + this.armour);
     }
 
     @Override

@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.entities.movable.Bullet;
-import com.mygdx.game.entities.movable.Enemy;
+import com.mygdx.game.entities.movable.*;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 import com.mygdx.game.helper.AssetLoader;
 
 import java.util.ArrayList;
@@ -37,7 +37,6 @@ public abstract class Tower extends TileEntities {
         this.angle = 0;
         planted = false;
         listBullet = new ArrayList<>();
-        //shapeRenderer = new ShapeRenderer();
     }
     public Enemy TakeTarget()
     {
@@ -161,7 +160,6 @@ public abstract class Tower extends TileEntities {
             for (int i=0; i< this.listBullet.size()-1; i++)
             {
                 if (!this.listBullet.get(i).isActive()) {
-                    //
                     this.listBullet.remove(i);
                     i--;
                 }
@@ -187,9 +185,20 @@ public abstract class Tower extends TileEntities {
     }
 
     public void isDragged() {
-        this.planted = true;
-        this.readyToDrag = false;
-        GameWorld.playerMoney -= this.price;
+        if(GameWorld.isActive) {
+            if (GameWorld.playerMoney - this.price >= 0) {
+                this.planted = true;
+                this.readyToDrag = false;
+                GameWorld.playerMoney -= this.price;
+            } else GameWorld.tower.remove(GameWorld.tower.size() - 1);
+        }
+        else if(GameWorld2.isActive) {
+            if (GameWorld2.playerMoney - this.price >= 0) {
+                this.planted = true;
+                this.readyToDrag = false;
+                GameWorld2.playerMoney -= this.price;
+            } else GameWorld2.tower.remove(GameWorld2.tower.size() - 1);
+        }
     }
 
     public float getX() {

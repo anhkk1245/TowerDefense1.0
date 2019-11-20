@@ -13,22 +13,23 @@ import com.mygdx.game.helper.Wave;
 public class GamePlayStage implements Screen {
     private GameWorld world;
     private GameRenderer renderer;
+    MyGdxGame game;
 
-    public GamePlayStage() {
+    public GamePlayStage(MyGdxGame game) {
+        this.game = game;
         world = new GameWorld();
         renderer = new GameRenderer(world);
 
-        Gdx.input.setInputProcessor(new InputHandle(world));
     }
 
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(new InputHandle(world, game));
     }
 
     @Override
     public void render(float delta) {
-        //world.update(delta);
         renderer.render();
     }
 
@@ -49,6 +50,7 @@ public class GamePlayStage implements Screen {
 
     @Override
     public void hide() {
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

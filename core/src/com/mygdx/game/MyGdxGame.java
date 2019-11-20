@@ -19,7 +19,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		AssetLoader.load();
-		setScreen(new GamePlayStage());
+		setScreen(new StartStage(this));
 	}
 
 	@Override

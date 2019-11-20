@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 
 public abstract class Enemy extends MovableEntities {
     protected String direction = "";
@@ -93,9 +94,23 @@ public abstract class Enemy extends MovableEntities {
     }
 
     protected int hpProgress;
+
     public void createHealthBar(SpriteBatch batch, Texture healthBarBackground, Texture healthBar) {
         batch.draw(healthBarBackground, this.position.x + 20, this.position.y+60, 40, 5 );
-        batch.draw(healthBar, this.position.x + 20, this.position.y + 60, 39, 5);
+        batch.draw(healthBar, this.position.x + 20, this.position.y + 60, getHpProgress(), 5);
+    }
+
+    public void takeDamage(int damage) {
+        hpProgress -=  damage;
+        if(hpProgress <= 0) {
+            if(GameWorld.isActive) {
+                GameWorld.playerMoney += this.money;
+            }
+            else if(GameWorld2.isActive) {
+                GameWorld2.playerMoney += this.money;
+            }
+            this.deActive();
+        }
     }
 
     @Override
@@ -136,8 +151,9 @@ public abstract class Enemy extends MovableEntities {
         this.id = id;
     }
 
-    public int getHpProgress() {
-        return hpProgress;
+    public float getHpProgress() {
+        float progress = (float) (40 *( (1.0 * this.hpProgress) / (1.0 * (this.hp + this.armour) ) ));
+        return progress;
     }
 
     public void setHpProgress(int hpProgress) {

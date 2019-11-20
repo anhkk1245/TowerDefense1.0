@@ -1,11 +1,16 @@
 package com.mygdx.game.helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.gamestate.gameoverstage.GameOverStage;
+import com.mygdx.game.gamestate.playstage.GamePlayStage;
 import com.mygdx.game.gamestate.playstage.GameWorld;
 
 
 public class InputHandle implements InputProcessor {
+    MyGdxGame game;
     private GameWorld world;
     private int[][] MAP_SPRITE;
     private Box box;
@@ -13,8 +18,10 @@ public class InputHandle implements InputProcessor {
 
     private boolean justDragged = false;
     private boolean justChoose = false;
+    private boolean devButton = false;
 
-    public InputHandle(GameWorld gameWorld) {
+    public InputHandle(GameWorld gameWorld, MyGdxGame game) {
+        this.game = game;
         this.world = gameWorld;
         this.MAP_SPRITE = gameWorld.MAP_SPRITES_1;
         this.box = gameWorld.box;
@@ -22,12 +29,20 @@ public class InputHandle implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        // switch instantly to next stage
+        if (keycode == Input.Keys.SPACE) {
+            devButton = true;
+        }
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        if(devButton) {
+            game.setScreen(new GameOverStage(game));
+            GameWorld.isActive = false;
+        }
+        return true;
     }
 
     @Override
@@ -48,7 +63,7 @@ public class InputHandle implements InputProcessor {
         }
 
         if (this.box.isContain(screenX, renderY, 96, 40)) {
-            GameWorld.playerMoney += GameWorld.tower.get(indexToDelete).getPrice();
+            GameWorld.playerMoney += (GameWorld.tower.get(indexToDelete).getPrice() / 3);
             GameWorld.tower.remove(indexToDelete);
             this.box.setActive(false);
         }
@@ -56,8 +71,10 @@ public class InputHandle implements InputProcessor {
         for (int i=0;i<GameWorld.iconBox.size();i++) {
             if(GameWorld.iconBox.get(i).isContain(screenX,renderY,64,64)) {
                 if(GameWorld.iconBox.get(i).getId() == 1) {
-                    GameWorld.plane.setActive(true);
-                    GameWorld.playerMoney -= 100;
+                    if(GameWorld.playerMoney - 200 >= 0) {
+                        GameWorld.plane.setActive(true);
+                        GameWorld.playerMoney -= 200;
+                    }
                 }
                 else if(GameWorld.iconBox.get(i).getId() == 2) {GameWorld.save();}
                 else {GameWorld.load();}

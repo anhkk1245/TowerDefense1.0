@@ -19,7 +19,7 @@ public abstract class MovableEntities {
     public abstract void draw(SpriteBatch batch, Texture texture);
 
     public void deActive() {
-        active = false;
+        this.active = false;
     }
 
     public boolean isActive() {

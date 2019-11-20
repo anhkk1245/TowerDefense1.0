@@ -9,9 +9,10 @@ public class TankerEnemy extends Enemy {
         super(x, y);
         super.setSpeed(2);
         super.setId(2);
-        super.setHp(70);
+        super.setHp(150);
         super.setMoney(10);
         super.setArmour(20);
+        super.setHpProgress(this.hp + this.armour);
     }
     public TankerEnemy(int hp, int countWayPoint, float x, float y, String direction, int distanceTraveled){
         super(hp, countWayPoint, x, y, direction, distanceTraveled);
@@ -19,6 +20,7 @@ public class TankerEnemy extends Enemy {
         super.setMoney(10);
         super.setArmour(20);
         super.setSpeed(3);
+        super.setHpProgress(this.hp + this.armour);
     }
 
     @Override

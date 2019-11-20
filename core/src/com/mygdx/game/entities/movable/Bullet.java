@@ -30,7 +30,7 @@ public class Bullet extends MovableEntities {
         this.target = tower.TakeTarget();
         angle = tower.getAngle(target);
         this.position = new Vector2(tower.getX()+32, tower.getY()+32);
-        numFrame =12;
+        numFrame =13;
         img_bullet = new Sprite(this.texture);
         img_bullet.rotate(angle);
     }
@@ -52,7 +52,7 @@ public class Bullet extends MovableEntities {
     public void getTargetPos() {
         if(KT) {
             targetPos = new Vector2(target.getX()+32, target.getY()+32);
-            this.maxDistance = Vector2.dst(this.getX(), this.getY(),this.target.getX()+32, this.target.getY()+32);
+            this.maxDistance = Vector2.dst(this.getX(), this.getY(),targetPos.x, targetPos.y);
             float ch = Vector2.dst(this.getX(), this.getY(), this.target.getX()+32, this.target.getY()+32);
             float cgv = Math.abs(this.getY() - this.target.getY()-32);
             float cos = cgv/ch;
@@ -64,7 +64,7 @@ public class Bullet extends MovableEntities {
 
     public void update() {
 
-        if (this.getX() > InforGame.MAP_WIDTH || this.getX() < 0 || this.getY() > InforGame.MAP_HEIGHT || this.getY() <0)
+        if (this.getX() > InforGame.MAP_WIDTH || this.getX() < 0 || this.getY() > InforGame.MAP_HEIGHT + 64*2 || this.getY() < 64*2)
         {
             this.deActive();
             return;
@@ -94,6 +94,8 @@ public class Bullet extends MovableEntities {
         }
         if (distanceTraveled > maxDistance)
         {
+            //take damage here
+            this.target.takeDamage(this.damage);
             this.setPosition(target.getX()+32, target.getY()+32);
             this.deActive();
             return;

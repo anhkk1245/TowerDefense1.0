@@ -7,11 +7,12 @@ import com.badlogic.gdx.math.Vector2;
 public class NormalEnemy extends Enemy {
     public NormalEnemy(float x, float y) {
         super(x, y);
-        super.setSpeed(2);
+        super.setSpeed(3);
         super.setId(1);
-        super.setHp(50);
+        super.setHp(80);
         super.setMoney(10);
         super.setArmour(10);
+        super.setHpProgress(this.hp + this.armour);
     }
 
     public NormalEnemy(int hp, int countWayPoint, float x, float y, String direction, int distanceTraveled){
@@ -20,6 +21,7 @@ public class NormalEnemy extends Enemy {
         super.setMoney(10);
         super.setArmour(10);
         super.setSpeed(4);
+        super.setHpProgress(this.hp + this.armour);
     }
 
     @Override

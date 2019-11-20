@@ -2,9 +2,11 @@ package com.mygdx.game.helper;
 
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 
 public class Wave {
     GameWorld world;
+    GameWorld2 world2;
     private String[] getWaveInfo;
 
     public static int waveNumber = 1;
@@ -17,6 +19,12 @@ public class Wave {
         this.world = world;
         getWaveInfo = world.getWaveInfo();
     }
+
+    public Wave(GameWorld2 world) {
+        this.world2 = world;
+        getWaveInfo = world.getWaveInfo();
+    }
+
     public void nextWave() {
         this.enemiesThisRound = 0;
         this.waveSpawning = true;
@@ -26,7 +34,7 @@ public class Wave {
     }
 
     private int currentDelay = 0;
-    private int spawnRate = 10;
+    private int spawnRate = 15;
 
     public void spawnEnemies() {
             String[] getRoundInfo = this.getWaveInfo[this.waveNumber - 1].split(" ");
