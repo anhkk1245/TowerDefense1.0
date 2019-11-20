@@ -10,7 +10,7 @@ import com.mygdx.game.gamestate.playstage.GameWorld;
 public class Box {
     private boolean active = false;
     private Vector2 position;
-    private float speed = 5;
+    private float speed = 9;
     private int id;
     public Box() {
         this.position = new Vector2(0,0);
@@ -30,13 +30,11 @@ public class Box {
     }
 
     public void update() {
-        if(this.position.x >=0 && this.position.y <= Gdx.graphics.getHeight()) {
-            this.position.add(-this.speed*(float)Math.cos(Math.atan(10.0/13.0)), this.speed*(float)Math.sin(Math.atan(10.0/13.0)) );
+        if(this.position.x >=0) {
+           this.position.add(-this.speed, 0);
         }
         else {
-            GameWorld.resetEnemy();
             this.setActive(false);
-            this.position = new Vector2(12*64, 64*2);
         }
     }
 
@@ -44,17 +42,14 @@ public class Box {
         batch.draw(texture, this.position.x, this.position.y, width, height);
     }
 
-    public void drawSprite(SpriteBatch batch, Sprite sprite) {
-        sprite.setPosition(this.position.x, this.position.y);
-        sprite.draw(batch);
-    }
-
     public boolean isActive() {
         return active;
     }
+
     public void setActive(boolean value) {
         active = value;
     }
+
     public void setPosition(float x, float y) {
         if(x == 64*12) this.position = new Vector2(x-64, y+64);
         else if(y == 64*11) this.position = new Vector2(x -70 , y-40);
@@ -67,5 +62,17 @@ public class Box {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public float getX() {
+        return this.position.x;
+    }
+
+    public float getY() {
+        return this.position.y;
+    }
+
+    public void setPlanePosition(float x, float y) {
+        this.position = new Vector2(x,y);
     }
 }

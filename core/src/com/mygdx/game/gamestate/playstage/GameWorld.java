@@ -43,8 +43,8 @@ public class GameWorld {
             {0,0,0,0,0,0,0,1,0,0,1,0,0},
             {0,0,0,0,0,0,0,1,0,0,1,0,0},
             {0,0,0,0,0,0,0,1,1,1,1,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {2,3,0,0,0,0,0,0,0,0,0,0,0},
+            {2,2,2,0,0,0,0,0,0,0,0,0,0},
+            {3,2,2,0,0,0,0,0,0,0,0,0,0},
     };
 
     public GameWorld() {
@@ -59,13 +59,8 @@ public class GameWorld {
         icon.add(new SniperTower(64*5, 64));
         icon.add(new MachineGunTower(64*8, 64));
         box = new Box();
-        plane = new Box(12*64, 64*2);
+        plane = new Box(13*64, 64*8);
     }
-
-    public void update(float delta) {
-        //normalEnemy.update(wayPoints, 0);
-    }
-
 
     public void createEnemy(int id) {
         if(id == 1) {
@@ -181,6 +176,14 @@ public class GameWorld {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void resetWorld() {
+        tower.clear();
+        resetEnemy();
+        iconBox.clear();
+        icon.clear();
+        Wave.resetWave();
     }
 
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.gameoverstage.GameOverStage;
 import com.mygdx.game.gamestate.startstage.StartStage;
+import com.mygdx.game.helper.AssetLoader;
 import com.mygdx.game.helper.InputHandle;
 import com.mygdx.game.helper.Wave;
 
@@ -19,12 +20,12 @@ public class GamePlayStage implements Screen {
         this.game = game;
         world = new GameWorld();
         renderer = new GameRenderer(world);
-
     }
 
 
     @Override
     public void show() {
+        AssetLoader.spotEnemy.play();
         Gdx.input.setInputProcessor(new InputHandle(world, game));
     }
 

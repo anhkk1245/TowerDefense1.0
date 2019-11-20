@@ -1,12 +1,15 @@
 package com.mygdx.game.helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.entities.movable.TankerEnemy;
 
 public class AssetLoader {
+    public static Texture sand;
     public static Texture grass;
     public static Texture road;
     public static Texture NormalEnemy;
@@ -30,8 +33,24 @@ public class AssetLoader {
     public static Texture sos;
     public static Texture save;
     public static Texture load;
+    public static Texture start;
+    public static Texture nextStage;
+    public static Texture over;
+    public static Texture explosionTexture;
+    public static Animation<TextureRegion> explosion;
+
+    public static Music startGame;
+    public static Music gameOver;
+    public static Music flash;
+    public static Music shoot;
+    public static Music click;
+    public static Music bang;
+    public static Music spotEnemy;
+    public static Music bonus;
+    public static Music notEnoughMoney;
 
     public static void load() {
+        sand = new Texture(Gdx.files.internal("road/sand.png"));
         grass = new Texture(Gdx.files.internal("road/grass_tile_3.png"));
         road = new Texture(Gdx.files.internal("road/road.png"));
 
@@ -39,8 +58,6 @@ public class AssetLoader {
         tankerEnemy = new Texture(Gdx.files.internal("enemy/tanker_enemy.png"));
         smallerEnemy = new Texture(Gdx.files.internal("enemy/smaller_enemy.png"));
         bossEnemy = new Texture(Gdx.files.internal("enemy/boss_enemy.png"));
-
-
 
         tower = new Texture(Gdx.files.internal("tower/tower.png"));
         normalTowerGun = new Texture(Gdx.files.internal("tower/normal.png"));
@@ -65,6 +82,28 @@ public class AssetLoader {
         save = new Texture(Gdx.files.internal("pow/save.png"));
         load = new Texture(Gdx.files.internal("pow/resume.png"));
 
+        start = new Texture(Gdx.files.internal("start.png"));
+        nextStage = new Texture(Gdx.files.internal("black.png"));
+        over = new Texture(Gdx.files.internal("gameover.png"));
+        explosionTexture = new Texture(Gdx.files.internal("Explosion.png"));
+
+        TextureRegion[][] tmp = TextureRegion.split(explosionTexture, 96, 96);
+        TextureRegion[] explosive = new TextureRegion[12];
+        int index = 0;
+        for(int i =0;i<12;i++) {
+            explosive[index++] = tmp[0][i];
+        }
+        explosion = new Animation<TextureRegion>(0.025f,explosive);
+
+        startGame = Gdx.audio.newMusic(Gdx.files.internal("audio/start.mp3"));
+        gameOver = Gdx.audio.newMusic(Gdx.files.internal("audio/over.mp3"));
+        flash = Gdx.audio.newMusic(Gdx.files.internal("audio/flash.mp3"));
+        click = Gdx.audio.newMusic(Gdx.files.internal("audio/click.mp3"));
+        shoot = Gdx.audio.newMusic(Gdx.files.internal("audio/shoot.mp3"));
+        bang = Gdx.audio.newMusic(Gdx.files.internal("audio/bang.mp3"));
+        spotEnemy = Gdx.audio.newMusic(Gdx.files.internal("audio/spot_enemy.mp3"));
+        bonus = Gdx.audio.newMusic(Gdx.files.internal("audio/coin.mp3"));
+        notEnoughMoney = Gdx.audio.newMusic(Gdx.files.internal("audio/money.mp3"));
     }
 
     public static void dispose() {
@@ -89,5 +128,16 @@ public class AssetLoader {
         normalBullet.dispose();
         machineBullet.dispose();
         sniperBullet.dispose();
+        start.dispose();
+        startGame.dispose();
+        gameOver.dispose();
+        bang.dispose();
+        click.dispose();
+        flash.dispose();
+        shoot.dispose();
+        spotEnemy.dispose();
+        bonus.dispose();
+        notEnoughMoney.dispose();
+        explosionTexture.dispose();
     }
 }

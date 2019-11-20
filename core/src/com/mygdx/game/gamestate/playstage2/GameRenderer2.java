@@ -20,7 +20,7 @@ public class GameRenderer2 {
     private Wave wave;
     private Box box;
 
-    private Texture grass;
+    private Texture sand;
     private Texture road;
     private Texture NormalEnemy;
     private Texture TankerEnemy;
@@ -50,6 +50,7 @@ public class GameRenderer2 {
 
     public static float timer = 0;
     private float timer2 = 0;
+    private float timer3 = 0;
 
     private SpriteBatch batch;
 
@@ -63,7 +64,7 @@ public class GameRenderer2 {
         wayPoints = world.wayPoints;
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        wave = new Wave(this.world);
+        wave = new Wave(world);
         box = world.box;
         initObject();
         initAsset();
@@ -83,7 +84,7 @@ public class GameRenderer2 {
 
 
     public void initAsset() {
-        grass = AssetLoader.grass;
+        sand = AssetLoader.sand;
         road = AssetLoader.road;
         NormalEnemy = AssetLoader.NormalEnemy;
         TankerEnemy = AssetLoader.tankerEnemy;
@@ -131,8 +132,18 @@ public class GameRenderer2 {
         }
 
         if(GameWorld2.plane.isActive()) {
+            timer3 += Gdx.graphics.getDeltaTime();
             GameWorld2.plane.update();
-            GameWorld2.plane.drawSprite(batch, plane);
+            GameWorld2.plane.draw(batch, skill, 70, 70);
+            if(GameWorld2.plane.getX() < 10* 64) {
+                AssetLoader.bang.play();
+                batch.draw(AssetLoader.explosion.getKeyFrame(timer3,true), GameWorld2.plane.getX() + 64, GameWorld2.plane.getY()-450,300,750);
+                if(timer3>1) GameWorld2.resetEnemy();
+            }
+        }
+        else {
+            timer3 = 0;
+            GameWorld2.plane.setPlanePosition(13*64,8*64);
         }
 
         if(box.isActive()) {
@@ -177,7 +188,7 @@ public class GameRenderer2 {
             }
         }
 
-        font.draw(batch, "WAVE: \n" + wave.waveNumber +"\n\nmoney: \n " + GameWorld.playerMoney + "\n\nescaped:\n"+ GameWorld.escapedEnemy+"/10", 64*13, 64*11 );
+        font.draw(batch, "WAVE:\n" + wave.waveNumber +"\n\nmoney:\n " + GameWorld.playerMoney + "\n\nescaped:\n"+ GameWorld.escapedEnemy+"/10", 64*13, 64*11 );
 
         batch.end();
 
@@ -201,7 +212,7 @@ public class GameRenderer2 {
                 if (MAP_SPRITES_2[i][j] == 1) {
                     batch.draw(road, j * 64, (11 - i ) * 64, 64, 64);
                 } else if (MAP_SPRITES_2[i][j] == 0) {
-                    batch.draw(grass, j * 64, (11 - i) * 64, 64, 64);
+                    batch.draw(sand, j * 64, (11 - i) * 64, 64, 64);
                 } else if (MAP_SPRITES_2[i][j] == 2) {
                     batch.draw(water_1, j * 64, (11 - i) * 64, 64, 64);
                 }  else if (MAP_SPRITES_2[i][j] == 3) {

@@ -47,12 +47,22 @@ public abstract class Tower extends TileEntities {
     public Enemy getTarget() {
         Enemy Target = null;
         double farestEnemy = 0;
-        for (Enemy enemy : GameWorld.EnemyList) {
-            double distance = Vector2.dst(this.getX()+32, this.getY()+32, enemy.getX()+32, enemy.getY()+32);
-            if (enemy.isActive() && distance < range && enemy.getDistanceTraveled() > farestEnemy)
-            {
-                Target = enemy;
-                farestEnemy = enemy.getDistanceTraveled();
+        if(GameWorld.isActive) {
+            for (Enemy enemy : GameWorld.EnemyList) {
+                double distance = Vector2.dst(this.getX() + 32, this.getY() + 32, enemy.getX() + 32, enemy.getY() + 32);
+                if (enemy.isActive() && distance < range && enemy.getDistanceTraveled() > farestEnemy) {
+                    Target = enemy;
+                    farestEnemy = enemy.getDistanceTraveled();
+                }
+            }
+        }
+        else if(GameWorld2.isActive) {
+            for (Enemy enemy : GameWorld2.EnemyList) {
+                double distance = Vector2.dst(this.getX() + 32, this.getY() + 32, enemy.getX() + 32, enemy.getY() + 32);
+                if (enemy.isActive() && distance < range && enemy.getDistanceTraveled() > farestEnemy) {
+                    Target = enemy;
+                    farestEnemy = enemy.getDistanceTraveled();
+                }
             }
         }
         this.target = Target;
@@ -154,6 +164,7 @@ public abstract class Tower extends TileEntities {
                     bullet.getTargetPos();
                     bullet.update();
                     bullet.draw(batch);
+                    AssetLoader.shoot.play();
 
                 }
             }
@@ -190,7 +201,10 @@ public abstract class Tower extends TileEntities {
                 this.planted = true;
                 this.readyToDrag = false;
                 GameWorld.playerMoney -= this.price;
-            } else GameWorld.tower.remove(GameWorld.tower.size() - 1);
+            } else {
+                AssetLoader.notEnoughMoney.play();
+                GameWorld.tower.remove(GameWorld.tower.size() - 1);
+            }
         }
         else if(GameWorld2.isActive) {
             if (GameWorld2.playerMoney - this.price >= 0) {

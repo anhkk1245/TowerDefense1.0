@@ -118,9 +118,5 @@ public class Bullet extends MovableEntities {
     public float getY() {
         return this.position.y;
     }
-//    public Bullet reuse() {
-//        Bullet reuse = new Bullet();
-//        return reuse;
-//    }
 
 }

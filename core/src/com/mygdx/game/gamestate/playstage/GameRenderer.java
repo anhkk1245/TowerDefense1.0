@@ -40,7 +40,6 @@ public class GameRenderer {
     private Texture save;
     private Texture load;
 
-    private Sprite plane;
 
     private int[][] MAP_SPRITES_1 ;
     private Vector2[] wayPoints;
@@ -49,6 +48,7 @@ public class GameRenderer {
 
     public static float timer = 0;
     private float timer2 = 0;
+    private float timer3 = 0;
 
     private SpriteBatch batch;
 
@@ -103,9 +103,6 @@ public class GameRenderer {
         save = AssetLoader.save;
         load = AssetLoader.load;
 
-        plane = new Sprite(skill);
-        plane.setSize(64,64);
-        plane.rotate(135);
     }
 
     public void initObject() {
@@ -119,6 +116,7 @@ public class GameRenderer {
         drawMap(batch);
         drawIcon(batch);
 
+
         for (int i = GameWorld.tower.size() - 1;i>=0;i--) {
             if(GameWorld.tower.get(i).isActive()) {
                 GameWorld.tower.get(i).draw(batch, tower);
@@ -130,8 +128,18 @@ public class GameRenderer {
         }
 
         if(GameWorld.plane.isActive()) {
+            timer3 += Gdx.graphics.getDeltaTime();
             GameWorld.plane.update();
-            GameWorld.plane.drawSprite(batch, plane);
+            GameWorld.plane.draw(batch, skill, 70, 70);
+            if(GameWorld.plane.getX() < 10*64) {
+                AssetLoader.bang.play();
+                batch.draw(AssetLoader.explosion.getKeyFrame(timer3, true), GameWorld.plane.getX() + 64, GameWorld.plane.getY() - 450, 300, 750);
+                if(timer3 > 1) GameWorld.resetEnemy();
+            }
+        }
+        else {
+            timer3 = 0;
+            GameWorld.plane.setPlanePosition(13*64, 8*64);
         }
 
         if(box.isActive()) {

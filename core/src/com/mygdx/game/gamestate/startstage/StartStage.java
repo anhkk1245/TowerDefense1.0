@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.helper.AssetLoader;
 
 public class StartStage implements Screen {
     SpriteBatch batch;
@@ -22,10 +23,13 @@ public class StartStage implements Screen {
     @Override
     public void show(){
         // choose SPACE to move to next stage
+        AssetLoader.startGame.setLooping(true);
+        AssetLoader.startGame.play();
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
+                    AssetLoader.startGame.stop();
                     game.setScreen(new GamePlayStage(game));
                     GameWorld.isActive = true;
                 }
@@ -40,7 +44,7 @@ public class StartStage implements Screen {
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        font.draw(batch,"Start", Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        batch.draw(AssetLoader.start,0,0);
         batch.end();
     }
 

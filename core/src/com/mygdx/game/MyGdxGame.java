@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
+import com.mygdx.game.gamestate.playstage2.GamePlayStage2;
 import com.mygdx.game.gamestate.startstage.StartStage;
 import com.mygdx.game.helper.AssetLoader;
 import jdk.nashorn.internal.codegen.ClassEmitter;

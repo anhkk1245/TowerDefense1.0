@@ -10,8 +10,8 @@ public class Wave {
     private String[] getWaveInfo;
 
     public static int waveNumber = 1;
-    private int enemiesThisRound = 0;
-    private int enemyIndex = 1;
+    private static int enemiesThisRound = 0;
+    private static int enemyIndex = 1;
 
     public boolean waveSpawning;
 
@@ -29,11 +29,16 @@ public class Wave {
         this.enemiesThisRound = 0;
         this.waveSpawning = true;
         this.waveNumber++;
-        this.world.resetEnemy();
+        if(GameWorld.isActive) {
+            this.world.resetEnemy();
+        }
+        else if(GameWorld2.isActive) {
+            this.world2.resetEnemy();
+        }
 
     }
 
-    private int currentDelay = 0;
+    private static int currentDelay = 0;
     private int spawnRate = 15;
 
     public void spawnEnemies() {
@@ -44,13 +49,25 @@ public class Wave {
                 } else {
                     currentDelay = 0;
                     this.enemiesThisRound++;
-                    this.world.createEnemy(Integer.parseInt(getRoundInfo[enemyIndex]));
+                    if(GameWorld.isActive) {
+                        this.world.createEnemy(Integer.parseInt(getRoundInfo[enemyIndex]));
+                    }
+                    else if(GameWorld2.isActive) {
+                        this.world2.createEnemy(Integer.parseInt(getRoundInfo[enemyIndex]));
+                    }
                     enemyIndex++;
                 }
             } else {
                 this.waveSpawning = false;
                 enemyIndex = 1;
             }
+    }
+
+    public static void resetWave() {
+        waveNumber = 1;
+        enemiesThisRound = 0;
+        enemyIndex = 1;
+        currentDelay = 0;
     }
 
 }

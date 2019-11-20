@@ -128,7 +128,7 @@ public class GameWorld2 {
         try {
             FileWriter writer = new FileWriter("save.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
-            bufferedWriter.write(GameRenderer.timer + "\n");
+            bufferedWriter.write(GameRenderer2.timer + "\n");
             bufferedWriter.write(escapedEnemy + "\n");
             bufferedWriter.write(Wave.waveNumber + "\n");
             bufferedWriter.write(EnemyList.size() + "\n");
@@ -151,7 +151,7 @@ public class GameWorld2 {
             BufferedReader bf = new BufferedReader(new FileReader("save.txt"));
             tower.clear();
             EnemyList.clear();
-            GameRenderer.timer = Float.parseFloat(bf.readLine());
+            GameRenderer2.timer = Float.parseFloat(bf.readLine());
             escapedEnemy = Integer.parseInt(bf.readLine());
             Wave.waveNumber = Integer.parseInt(bf.readLine());
             int EnemyLiseSize = Integer.parseInt(bf.readLine());
@@ -179,5 +179,13 @@ public class GameWorld2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void resetWorld() {
+        tower.clear();
+        resetEnemy();
+        iconBox.clear();
+        icon.clear();
+        Wave.resetWave();
     }
 }

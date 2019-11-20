@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.gamestate.playstage.GameWorld;
 import com.mygdx.game.gamestate.playstage2.GameWorld2;
+import com.mygdx.game.helper.AssetLoader;
 
 public abstract class Enemy extends MovableEntities {
     protected String direction = "";
@@ -109,6 +110,7 @@ public abstract class Enemy extends MovableEntities {
             else if(GameWorld2.isActive) {
                 GameWorld2.playerMoney += this.money;
             }
+            AssetLoader.bonus.play();
             this.deActive();
         }
     }

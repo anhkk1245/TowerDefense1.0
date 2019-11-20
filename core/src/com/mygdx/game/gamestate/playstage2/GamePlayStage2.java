@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.playstage.GameRenderer;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.helper.InputHandle;
+import com.mygdx.game.helper.InputHandle2;
 
 public class GamePlayStage2 implements Screen {
     private GameWorld2 world;
@@ -19,11 +21,12 @@ public class GamePlayStage2 implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(new InputHandle2(world, game));
     }
 
     @Override
     public void render(float delta) {
-
+        renderer.render();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class GamePlayStage2 implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

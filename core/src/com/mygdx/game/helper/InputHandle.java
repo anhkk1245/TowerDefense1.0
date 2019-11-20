@@ -7,6 +7,8 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.gameoverstage.GameOverStage;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.gamestate.playstage2.GamePlayStage2;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 
 
 public class InputHandle implements InputProcessor {
@@ -40,6 +42,8 @@ public class InputHandle implements InputProcessor {
     public boolean keyUp(int keycode) {
         if(devButton) {
             game.setScreen(new GameOverStage(game));
+//            GameWorld2.isActive = true;
+            GameWorld.resetWorld();
             GameWorld.isActive = false;
         }
         return true;
@@ -63,17 +67,21 @@ public class InputHandle implements InputProcessor {
         }
 
         if (this.box.isContain(screenX, renderY, 96, 40)) {
+            AssetLoader.click.play();
             GameWorld.playerMoney += (GameWorld.tower.get(indexToDelete).getPrice() / 3);
+            AssetLoader.bonus.play();
             GameWorld.tower.remove(indexToDelete);
             this.box.setActive(false);
         }
 
         for (int i=0;i<GameWorld.iconBox.size();i++) {
             if(GameWorld.iconBox.get(i).isContain(screenX,renderY,64,64)) {
+                AssetLoader.click.play();
                 if(GameWorld.iconBox.get(i).getId() == 1) {
-                    if(GameWorld.playerMoney - 200 >= 0) {
+                    if(GameWorld.playerMoney - 0 >= 0) {
+                        AssetLoader.flash.play();
                         GameWorld.plane.setActive(true);
-                        GameWorld.playerMoney -= 200;
+                        GameWorld.playerMoney -= 0;
                     }
                 }
                 else if(GameWorld.iconBox.get(i).getId() == 2) {GameWorld.save();}
@@ -110,6 +118,7 @@ public class InputHandle implements InputProcessor {
                     int col = GameWorld.tower.get(GameWorld.tower.size() - 1).getMapRowIndex(screenX);
                     GameWorld.tower.get(GameWorld.tower.size() - 1).update(col * 64, row * 64);
                     GameWorld.tower.get(GameWorld.tower.size() - 1).isDragged();
+                    AssetLoader.click.play();
                 } else {
                     GameWorld.tower.remove(GameWorld.tower.size() - 1);
                 }
