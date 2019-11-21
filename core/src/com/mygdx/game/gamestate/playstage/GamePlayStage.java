@@ -29,6 +29,8 @@ public class GamePlayStage implements Screen {
     @Override
     public void show() {
         AssetLoader.spotEnemy.play();
+        AssetLoader.inGame.setLooping(true);
+        AssetLoader.inGame.play();
         Gdx.input.setInputProcessor(new InputHandle(world, game));
     }
 
@@ -38,6 +40,7 @@ public class GamePlayStage implements Screen {
             timer += Gdx.graphics.getDeltaTime();
             AssetLoader.win.play();
             if(timer > 3) {
+                AssetLoader.inGame.stop();
                 timer = 0;
                 game.setScreen(new GamePlayStage2(game));
                 GameWorld2.isActive = true;
@@ -53,6 +56,7 @@ public class GamePlayStage implements Screen {
             timer += Gdx.graphics.getDeltaTime();
             AssetLoader.lose.play();
             if(timer > 1.5) {
+                AssetLoader.inGame.stop();
                 timer = 0;
                 GameWorld.resetWorld();
                 GameWorld.isActive = false;

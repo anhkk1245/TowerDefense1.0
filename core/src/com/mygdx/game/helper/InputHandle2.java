@@ -40,6 +40,7 @@ public class InputHandle2 implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if(devButton) {
+            AssetLoader.inGame.stop();
             game.setScreen(new GameOverStage(game));
             GameWorld2.isActive = false;
             GameWorld2.resetWorld();
