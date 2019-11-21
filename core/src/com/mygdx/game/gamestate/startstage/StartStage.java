@@ -37,6 +37,7 @@ public class StartStage implements Screen {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
+                    timer = 0;
                     justLoad = false;
                     AssetLoader.startGame.stop();
                     game.setScreen(new GamePlayStage(game));

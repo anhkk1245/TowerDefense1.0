@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.gameoverstage.GameOverStage;
+import com.mygdx.game.gamestate.playstage2.GamePlayStage2;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 import com.mygdx.game.gamestate.startstage.StartStage;
 import com.mygdx.game.helper.AssetLoader;
 import com.mygdx.game.helper.InputHandle;
@@ -15,6 +17,7 @@ public class GamePlayStage implements Screen {
     private GameWorld world;
     private GameRenderer renderer;
     MyGdxGame game;
+    private float timer = 0;
 
     public GamePlayStage(MyGdxGame game) {
         this.game = game;
@@ -31,7 +34,31 @@ public class GamePlayStage implements Screen {
 
     @Override
     public void render(float delta) {
+        if(Wave.waveNumber == 5) {
+            timer += Gdx.graphics.getDeltaTime();
+            AssetLoader.win.play();
+            if(timer > 3) {
+                timer = 0;
+                game.setScreen(new GamePlayStage2(game));
+                GameWorld2.isActive = true;
+                GameWorld.resetWorld();
+                GameWorld.isActive = false;
+            }
+        }
+
+
         renderer.render();
+
+        if(GameWorld.escapedEnemy == 10) {
+            timer += Gdx.graphics.getDeltaTime();
+            AssetLoader.lose.play();
+            if(timer > 1.5) {
+                timer = 0;
+                GameWorld.resetWorld();
+                GameWorld.isActive = false;
+                game.setScreen(new GameOverStage(game));
+            }
+        }
     }
 
     @Override
@@ -56,6 +83,5 @@ public class GamePlayStage implements Screen {
 
     @Override
     public void dispose() {
-        //renderer.dispose();
     }
 }

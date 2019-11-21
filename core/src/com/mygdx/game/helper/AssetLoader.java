@@ -48,6 +48,8 @@ public class AssetLoader {
     public static Music spotEnemy;
     public static Music bonus;
     public static Music notEnoughMoney;
+    public static Music win;
+    public static Music lose;
 
     public static void load() {
         sand = new Texture(Gdx.files.internal("road/sand.png"));
@@ -104,6 +106,8 @@ public class AssetLoader {
         spotEnemy = Gdx.audio.newMusic(Gdx.files.internal("audio/spot_enemy.mp3"));
         bonus = Gdx.audio.newMusic(Gdx.files.internal("audio/coin.mp3"));
         notEnoughMoney = Gdx.audio.newMusic(Gdx.files.internal("audio/money.mp3"));
+        win = Gdx.audio.newMusic(Gdx.files.internal("audio/you_win.mp3"));
+        lose = Gdx.audio.newMusic(Gdx.files.internal("audio/you_lose.mp3"));
     }
 
     public static void dispose() {
@@ -139,5 +143,7 @@ public class AssetLoader {
         bonus.dispose();
         notEnoughMoney.dispose();
         explosionTexture.dispose();
+        win.dispose();
+        lose.dispose();
     }
 }

@@ -78,10 +78,10 @@ public class InputHandle implements InputProcessor {
             if(GameWorld.iconBox.get(i).isContain(screenX,renderY,64,64)) {
                 AssetLoader.click.play();
                 if(GameWorld.iconBox.get(i).getId() == 1) {
-                    if(GameWorld.playerMoney - 0 >= 0) {
+                    if(GameWorld.playerMoney - 100 >= 0) {
                         AssetLoader.flash.play();
                         GameWorld.plane.setActive(true);
-                        GameWorld.playerMoney -= 0;
+                        GameWorld.playerMoney -= 100;
                     }
                 }
                 else if(GameWorld.iconBox.get(i).getId() == 2) {GameWorld.save();}

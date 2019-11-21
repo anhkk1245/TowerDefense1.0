@@ -79,7 +79,7 @@ public class GameRenderer2 {
         fontParameter.size = 38;
         fontParameter.borderWidth = 1;
         fontParameter.borderColor = Color.BLACK;
-        fontParameter.color = Color.WHITE;
+        fontParameter.color = Color.BLACK;
         font = fontGenerator.generateFont(fontParameter);
     }
 
@@ -113,7 +113,7 @@ public class GameRenderer2 {
     }
 
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0,1);
+        Gdx.gl.glClearColor(216/255.0f, 224/255.0f, 222/255.0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         drawMap(batch);
@@ -188,7 +188,9 @@ public class GameRenderer2 {
             }
         }
 
-        font.draw(batch, "WAVE:\n" + Wave.waveNumber +"\nMONEY:\n " + GameWorld2.playerMoney + "\nESCAPED:\n"+ GameWorld2.escapedEnemy+"/10", 64*13, 64*11 );
+        if(wave.waveNumber <= 10) {
+            font.draw(batch, "WAVE:\n" + Wave.waveNumber + "\nMONEY:\n " + GameWorld2.playerMoney + "\nESCAPED:\n" + GameWorld2.escapedEnemy + "/10", 64 * 13, 64 * 11);
+        }
 
         batch.end();
 

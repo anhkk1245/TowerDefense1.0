@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 import com.mygdx.game.gamestate.startstage.StartStage;
 import com.mygdx.game.helper.AssetLoader;
 import com.mygdx.game.helper.Box;
@@ -77,7 +78,7 @@ public class GameRenderer {
         fontParameter.size = 38;
         fontParameter.borderWidth = 1;
         fontParameter.borderColor = Color.BLACK;
-        fontParameter.color = Color.WHITE;
+        fontParameter.color = Color.BLACK;
         font = fontGenerator.generateFont(fontParameter);
     }
 
@@ -111,9 +112,10 @@ public class GameRenderer {
     }
 
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0,1);
+        Gdx.gl.glClearColor(216/255.0f, 224/255.0f, 222/255.0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+
         drawMap(batch);
         drawIcon(batch);
 
@@ -186,8 +188,9 @@ public class GameRenderer {
                 }
             }
         }
-
-        font.draw(batch, "WAVE: \n" + wave.waveNumber +"\nMONEY: \n " + GameWorld.playerMoney + "\nESCAPED:\n"+ GameWorld.escapedEnemy+"/10", 64*13, 64*11 );
+        if(wave.waveNumber <= 10) {
+            font.draw(batch, "WAVE: \n" + wave.waveNumber + "\nMONEY: \n " + GameWorld.playerMoney + "\nESCAPED:\n" + GameWorld.escapedEnemy + "/10", 64 * 13, 64 * 11);
+        }
 
         batch.end();
 

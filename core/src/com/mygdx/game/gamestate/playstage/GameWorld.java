@@ -187,6 +187,7 @@ public class GameWorld {
         iconBox.clear();
         icon.clear();
         Wave.resetWave();
+        escapedEnemy = 0;
     }
 
 }
