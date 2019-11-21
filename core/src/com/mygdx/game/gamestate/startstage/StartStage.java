@@ -6,13 +6,21 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gamestate.playstage.GamePlayStage;
+import com.mygdx.game.gamestate.playstage.GameRenderer;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.gamestate.playstage2.GamePlayStage2;
+import com.mygdx.game.gamestate.playstage2.GameWorld2;
 import com.mygdx.game.helper.AssetLoader;
+import com.mygdx.game.helper.LoadGame;
+import com.mygdx.game.helper.Wave;
 
 public class StartStage implements Screen {
     SpriteBatch batch;
     BitmapFont font;
     MyGdxGame game;
+    public static int id;
+    public static float timer = 0 ;
+    public static boolean justLoad = false;
 
     public StartStage(MyGdxGame game) {
         this.game = game;
@@ -29,9 +37,29 @@ public class StartStage implements Screen {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
+                    justLoad = false;
                     AssetLoader.startGame.stop();
                     game.setScreen(new GamePlayStage(game));
                     GameWorld.isActive = true;
+                }
+                else if (keyCode == Input.Keys.ENTER) {
+                    justLoad = true;
+                    AssetLoader.startGame.stop();
+                    LoadGame.setInfo();
+                    if(id == 1) {
+                        game.setScreen(new GamePlayStage(game));
+                        GameWorld.isActive = true;
+                        GameWorld.tower.clear();
+                        GameWorld.EnemyList.clear();
+                        LoadGame.load();
+                    }
+                    else if(id == 2) {
+                        game.setScreen(new GamePlayStage2(game));
+                        GameWorld2.isActive = true;
+                        GameWorld2.tower.clear();
+                        GameWorld2.EnemyList.clear();
+                        LoadGame.load();
+                    }
                 }
                 return true;
             }

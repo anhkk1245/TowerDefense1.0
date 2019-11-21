@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entities.movable.*;
 import com.mygdx.game.entities.tile.*;
 import com.mygdx.game.helper.Box;
+import com.mygdx.game.helper.LoadGame;
 import com.mygdx.game.helper.Wave;
 
 import java.io.*;
@@ -124,6 +125,7 @@ public class GameWorld {
         try {
             FileWriter writer = new FileWriter("save.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            bufferedWriter.write("1\n");
             bufferedWriter.write(GameRenderer.timer + "\n");
             bufferedWriter.write(escapedEnemy + "\n");
             bufferedWriter.write(Wave.waveNumber + "\n");
@@ -147,6 +149,7 @@ public class GameWorld {
             BufferedReader bf = new BufferedReader(new FileReader("save.txt"));
             tower.clear();
             EnemyList.clear();
+            int tmp = Integer.parseInt(bf.readLine());
             GameRenderer.timer = Float.parseFloat(bf.readLine());
             escapedEnemy = Integer.parseInt(bf.readLine());
             Wave.waveNumber = Integer.parseInt(bf.readLine());

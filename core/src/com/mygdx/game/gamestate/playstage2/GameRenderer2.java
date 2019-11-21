@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.gamestate.playstage.GameWorld;
+import com.mygdx.game.gamestate.startstage.StartStage;
 import com.mygdx.game.helper.AssetLoader;
 import com.mygdx.game.helper.Box;
 import com.mygdx.game.helper.Wave;
@@ -48,7 +49,7 @@ public class GameRenderer2 {
 
     private ShapeRenderer shapeRenderer;
 
-    public static float timer = 0;
+    public static float timer = StartStage.timer;
     private float timer2 = 0;
     private float timer3 = 0;
 
@@ -73,12 +74,12 @@ public class GameRenderer2 {
     }
 
     public void initFont() {
-        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/COMICATE.TTF"));
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/Pacifico.ttf"));
         fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = 50;
-        fontParameter.borderWidth = 3;
-        fontParameter.borderColor = Color.WHITE;
-        fontParameter.color = Color.BLACK;
+        fontParameter.size = 38;
+        fontParameter.borderWidth = 1;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.color = Color.WHITE;
         font = fontGenerator.generateFont(fontParameter);
     }
 
@@ -153,7 +154,9 @@ public class GameRenderer2 {
         }
 
         if(wave.waveNumber <= this.world.getWaveInfo().length) {
-            wave.spawnEnemies();
+            if(!StartStage.justLoad) {
+                wave.spawnEnemies();
+            }
 
             for (int i = 0;i < GameWorld2.EnemyList.size();i++) {
                 if (GameWorld2.EnemyList.get(i).isActive()){
@@ -185,7 +188,7 @@ public class GameRenderer2 {
             }
         }
 
-        font.draw(batch, "WAVE:\n" + wave.waveNumber +"\n\nmoney:\n " + GameWorld2.playerMoney + "\n\nescaped:\n"+ GameWorld2.escapedEnemy+"/10", 64*13, 64*11 );
+        font.draw(batch, "WAVE:\n" + Wave.waveNumber +"\nMONEY:\n " + GameWorld2.playerMoney + "\nESCAPED:\n"+ GameWorld2.escapedEnemy+"/10", 64*13, 64*11 );
 
         batch.end();
 

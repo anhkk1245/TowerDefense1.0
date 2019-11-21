@@ -6,6 +6,7 @@ import com.mygdx.game.entities.movable.*;
 import com.mygdx.game.entities.tile.*;
 import com.mygdx.game.gamestate.playstage.GameRenderer;
 import com.mygdx.game.helper.Box;
+import com.mygdx.game.helper.LoadGame;
 import com.mygdx.game.helper.Wave;
 
 import java.io.*;
@@ -128,6 +129,7 @@ public class GameWorld2 {
         try {
             FileWriter writer = new FileWriter("save.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
+            bufferedWriter.write("2\n");
             bufferedWriter.write(GameRenderer2.timer + "\n");
             bufferedWriter.write(escapedEnemy + "\n");
             bufferedWriter.write(Wave.waveNumber + "\n");
@@ -151,6 +153,7 @@ public class GameWorld2 {
             BufferedReader bf = new BufferedReader(new FileReader("save.txt"));
             tower.clear();
             EnemyList.clear();
+            int tmp = Integer.parseInt(bf.readLine());
             GameRenderer2.timer = Float.parseFloat(bf.readLine());
             escapedEnemy = Integer.parseInt(bf.readLine());
             Wave.waveNumber = Integer.parseInt(bf.readLine());

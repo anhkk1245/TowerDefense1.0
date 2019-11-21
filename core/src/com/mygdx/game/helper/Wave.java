@@ -3,6 +3,7 @@ package com.mygdx.game.helper;
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.gamestate.playstage.GameWorld;
 import com.mygdx.game.gamestate.playstage2.GameWorld2;
+import com.mygdx.game.gamestate.startstage.StartStage;
 
 public class Wave {
     GameWorld world;
@@ -13,7 +14,7 @@ public class Wave {
     private static int enemiesThisRound = 0;
     private static int enemyIndex = 1;
 
-    public boolean waveSpawning;
+    public static boolean waveSpawning;
 
     public Wave(GameWorld world) {
         this.world = world;
@@ -35,6 +36,7 @@ public class Wave {
         else if(GameWorld2.isActive) {
             this.world2.resetEnemy();
         }
+        StartStage.justLoad = false;
 
     }
 
