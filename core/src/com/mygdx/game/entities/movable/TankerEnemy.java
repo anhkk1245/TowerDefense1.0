@@ -9,7 +9,7 @@ public class TankerEnemy extends Enemy {
         super(x, y);
         super.setSpeed(2);
         super.setId(2);
-        super.setHp(150);
+        super.setHp(200);
         super.setMoney(10);
         super.setArmour(20);
         super.setHpProgress(this.hp + this.armour);

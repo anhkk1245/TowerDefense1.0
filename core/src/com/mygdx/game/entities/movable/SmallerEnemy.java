@@ -9,7 +9,7 @@ public class SmallerEnemy extends Enemy {
         super(x, y);
         super.setSpeed(4);
         super.setId(3);
-        super.setHp(70);
+        super.setHp(150);
         super.setMoney(10);
         super.setArmour(10);
         super.setHpProgress(this.hp + this.armour);

@@ -9,7 +9,7 @@ public class BossEnemy extends Enemy {
         super(x, y);
         super.setSpeed(2);
         super.setId(4);
-        super.setHp(200);
+        super.setHp(400);
         super.setMoney(20);
         super.setArmour(30);
         super.setHpProgress(this.hp + this.armour);

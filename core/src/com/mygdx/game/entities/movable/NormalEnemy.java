@@ -9,7 +9,7 @@ public class NormalEnemy extends Enemy {
         super(x, y);
         super.setSpeed(3);
         super.setId(1);
-        super.setHp(80);
+        super.setHp(170);
         super.setMoney(10);
         super.setArmour(10);
         super.setHpProgress(this.hp + this.armour);
